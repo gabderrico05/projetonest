@@ -1,6 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { Test, TestingModule} from '@nestjs/testing'
-import { EnvConfigService } from '../../env~config.service'
-import { EnvConfigModule } from '../../env~config.module'
+import { EnvConfigService } from '../../env-config.service'
+import { EnvConfigModule } from '../../env-config.module'
 
 describe('EnvConfigService Unit Tests', () => {
         let sut: EnvConfigService
@@ -15,7 +16,7 @@ describe('EnvConfigService Unit Tests', () => {
         })
 
         it('Should be defined', () => {
-            expect(service).toBeDefined()
+            expect(sut).toBeDefined()
         })
 
         it('Should return the variable PORT', () =>{

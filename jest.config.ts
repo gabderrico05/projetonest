@@ -1,11 +1,12 @@
+/* eslint-disable prettier/prettier */
 import { pathsToModuleNameMapper} from 'ts-jest'
-import { CompilerOptions } from './tsconfig.json'
+import { compilerOptions } from './tsconfig.json'
 
 export default { 
     moduleFileExtensions: ['js', 'json', 'ts'],
     moduleNameMapper: pathsToModuleNameMapper(
-        CompilerOptions.paths, {
-            prefix: '<rootDir>'
+        compilerOptions.paths, {
+            prefix: '<rootDir>/'
         }),
         testRegex: '.*\\..*spec\\.ts$',
         transform: {
