@@ -61,4 +61,18 @@ describe('ClassValidatorFields integration testes', () => {
             }),
         )
     })
+
+
 })
+
+/*
+name: [
+    'name should not be empty',
+    'name must be a string',
+    'name must be shorter than or equal to 255 characters'
+],
+price: [
+    'price should not be empty',
+    'price must be a number conforming to the specified constraints'
+]
+*/
