@@ -7,6 +7,6 @@ export function UserDataBuilder(p0: {}): UserProps{
         name: faker.person.fullName(),
         email: faker.internet.email(),
         password: faker.internet.password(),
-        createdAt: new Date(),
+        createdAt: new Date()
     }
 }

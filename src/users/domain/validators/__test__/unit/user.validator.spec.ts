@@ -5,12 +5,22 @@ import {
     UserValidator,
     UserValidatorFactory
 } from "../../user.validator"; 
+import { UserProps } from "@/users/domain/entities/user.entity";
 
 let sut : UserValidator
+let props: UserProps
 
 describe('UserValidator unit tests', () => {
     beforeEach(() => {
         sut = UserValidatorFactory.create()
+        props = UserDataBuilder({})
+    })
+
+    it('Valid case for user validator class', () => {
+        const props = UserDataBuilder({})
+        const isValid = sut.validate(props)
+        expect(isValid).toBeTruthy()
+        expect(sut.validatedData).toStrictEqual(new UserRules(props))
     })
 
     describe('Name field', () => {
@@ -26,7 +36,7 @@ describe('UserValidator unit tests', () => {
         })
             it('Name field is empty - error', () => {
                 const isValid = sut.validate({
-                    ...UserDataBuilder({}),
+                    ...props,
                     name: '' as any,
                 })
                 expect(isValid).toBeFalsy()
@@ -36,7 +46,7 @@ describe('UserValidator unit tests', () => {
             })
             it('Name field is number- error', () => {
                 const isValid = sut.validate({
-                    ...UserDataBuilder({}),
+                    ...props,
                     name: 10 as any,
                 })
                 expect(isValid).toBeFalsy()
@@ -48,7 +58,7 @@ describe('UserValidator unit tests', () => {
 
             it('Name field is larger than 255 characters- error', () => {
                 const isValid = sut.validate({
-                    ...UserDataBuilder({}),
+                    ...props,
                     name: 'a'.repeat(256) as any,
                 })
                 expect(isValid).toBeFalsy()
@@ -64,7 +74,72 @@ describe('UserValidator unit tests', () => {
                 expect(sut.validatedData).toStrictEqual(new UserRules(props))
             })
     })
-})
+
+    describe('email field', () => {
+        it('email field is null - error', () => {
+            const isValid = sut.validate(null as any)
+            expect(isValid).toBeFalsy()
+            expect(sut.errors['email']).toStrictEqual([
+                'email should not be empty',
+                'email must be an email',
+                'email must be a string',
+                'email must be shorter than or equal to 255 characters'
+            ])
+        })
+    
+        it('email field is empty - error', () => {
+            const isValid = sut.validate({
+                ...props,
+                email: '' as any,
+            })
+            expect(isValid).toBeFalsy()
+            expect(sut.errors['email']).toStrictEqual([
+                'email should not be empty',
+                'email must be an email'
+            ])
+        })
+    
+        it('email field is a number - error', () => {
+            const isValid = sut.validate({
+                ...props,
+                email: 10 as any,
+            })
+            expect(isValid).toBeFalsy()
+            expect(sut.errors['email']).toStrictEqual([
+                'email must be an email',
+                'email must be a string',
+                'email must be shorter than or equal to 255 characters'
+            ])
+        })
+        
+        it('email field is larger than 255 characters - error', () => {
+            const isValid = sut.validate({
+                ...props,
+                email: 'a'.repeat(256) as any,
+            })
+            expect(isValid).toBeFalsy()
+            expect(sut.errors['email']).toStrictEqual([
+                'email must be an email',
+                'email must be shorter than or equal to 255 characters'
+            ])
+        })
+    })
+        
+    
+    describe('CreatedAt field',() => {
+        it('CreatedAt field is a number - error', () => {
+            const isValid = sut.validate({
+                ...props,
+                createdAt: 10 as any,
+            })
+            expect(isValid).toBeFalsy()
+            
+        })
+    
+    })
+    })
+
+
 
 
 
